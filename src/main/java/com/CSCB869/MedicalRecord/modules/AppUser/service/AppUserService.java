@@ -2,7 +2,7 @@ package com.CSCB869.MedicalRecord.modules.AppUser.service;
 
 import com.CSCB869.MedicalRecord.modules.AppUser.model.AppUser;
 import com.CSCB869.MedicalRecord.modules.AppUser.model.AppUserDTO;
-import com.CSCB869.MedicalRecord.modules.AppUser.model.UpdateAppUserDTO;
+import com.CSCB869.MedicalRecord.modules.AppUser.model.AppUserUpdateDTO;
 import com.CSCB869.MedicalRecord.modules.AppUser.repo.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +19,8 @@ public class AppUserService implements IAppUserService{
     private AppUserRepository appUserRepository;
 
     @Override
-    public AppUser save(AppUser appUser) {
-
+    public AppUser save(AppUser appUser) throws Exception {
+        if(this.usernameExists(appUser.getUsername())) throw new Exception("Username exists!");
         return this.appUserRepository.save(appUser);
     }
 
@@ -42,7 +42,7 @@ public class AppUserService implements IAppUserService{
     }
 
     @Override
-    public AppUser update(String id, UpdateAppUserDTO payload) throws Exception {
+    public AppUser update(String id, AppUserUpdateDTO payload) throws Exception {
         AppUser user = this.appUserRepository.findById(id).orElse(null);
 
         if(user == null) throw new Exception("User Not Found!");

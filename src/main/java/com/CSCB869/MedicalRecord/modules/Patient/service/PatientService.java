@@ -5,14 +5,13 @@ import com.CSCB869.MedicalRecord.modules.AppUser.service.IAppUserService;
 import com.CSCB869.MedicalRecord.modules.Patient.model.EngagedParty;
 import com.CSCB869.MedicalRecord.modules.Patient.model.Patient;
 import com.CSCB869.MedicalRecord.modules.Patient.model.PatientRegisterDTO;
-import com.CSCB869.MedicalRecord.modules.Patient.model.UpdatePatientDTO;
+import com.CSCB869.MedicalRecord.modules.Patient.model.PatientUpdateDTO;
 import com.CSCB869.MedicalRecord.modules.Patient.repo.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -26,7 +25,6 @@ public class PatientService implements IPatientService{
 
     @Override
     public Patient save(PatientRegisterDTO patientRegisterDTO) throws Exception {
-        if(this.appUserService.usernameExists(patientRegisterDTO.getUsername())) throw new Exception("Username exists!");
         if(this.ucnExists(patientRegisterDTO.getUCN())) throw new Exception("UCN exists!");
 
         AppUser user = new AppUser(
@@ -59,7 +57,7 @@ public class PatientService implements IPatientService{
     }
 
     @Override
-    public Patient update(String id, UpdatePatientDTO payload) throws Exception {
+    public Patient update(String id, PatientUpdateDTO payload) throws Exception {
         Patient patient = this.patientRepository.findById(id).orElse(null);
 
         if(patient == null) throw new Exception("Patient not found!");

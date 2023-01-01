@@ -1,13 +1,11 @@
 package com.CSCB869.MedicalRecord.modules.AppUser.controller;
 import com.CSCB869.MedicalRecord.config.ResponseError;
-import com.CSCB869.MedicalRecord.modules.AppUser.model.UpdateAppUserDTO;
 import com.CSCB869.MedicalRecord.modules.AppUser.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @RestController

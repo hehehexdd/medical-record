@@ -16,7 +16,7 @@ public interface IDoctorService {
 
     Optional<Doctor> getById(String doctorId);
 
-    Doctor update(String doctorId, DoctorUpdateDTO doctorDTO) throws Exception;
+    Doctor update(String doctorId, DoctorUpdateDTO payload) throws Exception;
 
     void delete(String doctorId) throws Exception;
 }
