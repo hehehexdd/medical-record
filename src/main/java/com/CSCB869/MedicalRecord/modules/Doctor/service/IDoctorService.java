@@ -14,7 +14,7 @@ public interface IDoctorService {
 
     List<Doctor> getAll();
 
-    Optional<Doctor> getById(String doctorId);
+    Doctor getById(String doctorId) throws Exception;
 
     Doctor update(String doctorId, DoctorUpdateDTO payload) throws Exception;
 

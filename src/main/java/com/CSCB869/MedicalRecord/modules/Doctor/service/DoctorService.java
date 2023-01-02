@@ -9,10 +9,15 @@ import com.CSCB869.MedicalRecord.modules.Doctor.repo.DoctorRepository;
 import com.CSCB869.MedicalRecord.modules.Patient.model.EngagedParty;
 import com.CSCB869.MedicalRecord.modules.Patient.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class DoctorService implements IDoctorService{
 
     @Autowired
@@ -50,15 +55,17 @@ public class DoctorService implements IDoctorService{
     }
 
     @Override
-    public Optional<Doctor> getById(String doctorId) {
-        return this.doctorRepository.findById(doctorId);
+    public Doctor getById(String doctorId) throws Exception {
+        Optional<Doctor> doctor = this.doctorRepository.findById(doctorId);
+        if (doctor.isEmpty()) throw new Exception("Doctor not found!");
+        return doctor.get();
     }
 
     @Override
     public Doctor update(String doctorId, DoctorUpdateDTO payload) throws Exception {
         Doctor doctor = this.doctorRepository.findById(doctorId).orElse(null);
 
-        if(doctor == null) throw new Exception("Patient not found!");
+        if(doctor == null) throw new Exception("Doctor not found!");
 
         if(payload.getName() != null) {
             doctor.setName(payload.getName());

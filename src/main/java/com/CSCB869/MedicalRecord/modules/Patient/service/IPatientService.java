@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface IPatientService {
     Patient save(PatientRegisterDTO patientRegisterDTO) throws Exception;
     List<Patient> getAll();
-    Optional<Patient> getById(String patientId);
+    Patient getById(String patientId) throws Exception;
     Patient update(String id, PatientUpdateDTO payload) throws Exception;
     void delete(String id) throws Exception;
 }

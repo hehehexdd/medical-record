@@ -2,6 +2,7 @@ package com.CSCB869.MedicalRecord.modules.Patient.service;
 
 import com.CSCB869.MedicalRecord.modules.AppUser.model.AppUser;
 import com.CSCB869.MedicalRecord.modules.AppUser.service.IAppUserService;
+import com.CSCB869.MedicalRecord.modules.Doctor.model.Doctor;
 import com.CSCB869.MedicalRecord.modules.Patient.model.EngagedParty;
 import com.CSCB869.MedicalRecord.modules.Patient.model.Patient;
 import com.CSCB869.MedicalRecord.modules.Patient.model.PatientRegisterDTO;
@@ -52,8 +53,10 @@ public class PatientService implements IPatientService{
     }
 
     @Override
-    public Optional<Patient> getById(String patientId) {
-        return this.patientRepository.findById(patientId);
+    public Patient getById(String patientId) throws Exception {
+        Optional<Patient> patient = this.patientRepository.findById(patientId);
+        if (patient.isEmpty()) throw new Exception("Patient not found!");
+        return patient.get();
     }
 
     @Override

@@ -36,8 +36,14 @@ public class PatientController {
     }
 
     @GetMapping(path = "/{patientId}")
-    public Optional<Patient> getById(@PathVariable String patientId) {
-        return this.patientService.getById(patientId);
+    public ResponseEntity getById(@PathVariable String patientId) {
+        try {
+            return new ResponseEntity<>(this.patientService.getById(patientId), HttpStatus.OK);
+        }
+        catch (Exception exc) {
+            ResponseError error = new ResponseError(HttpStatus.NOT_FOUND, exc.getLocalizedMessage());
+            return new ResponseEntity<>(error, error.getStatus());
+        }
     }
 
     @PatchMapping(path = "/{patientId}")
@@ -46,7 +52,6 @@ public class PatientController {
             return new ResponseEntity<>(this.patientService.update(patientId, payload), HttpStatus.OK);
         }
         catch (Exception exc) {
-            System.out.println(exc);
             ResponseError error = new ResponseError(HttpStatus.NOT_FOUND, exc.getMessage());
             return new ResponseEntity<>(error, error.getStatus());
         }
