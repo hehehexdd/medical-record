@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +34,8 @@ public class Patient {
     @NonNull
     private String name;
 
+    private Date healthTaxesPaidUntil;
+
     public Patient(
             @NonNull String UCN,
             @NonNull EngagedParty engagedParty,
@@ -42,6 +45,7 @@ public class Patient {
         this.engagedParty = engagedParty;
         this.gp = gp;
         this.name = name;
+        this.healthTaxesPaidUntil = null;
     }
 
     public Patient(
@@ -52,5 +56,6 @@ public class Patient {
         this.engagedParty = engagedParty;
         this.gp = null;
         this.name = name;
+        this.healthTaxesPaidUntil = null;
     }
 }

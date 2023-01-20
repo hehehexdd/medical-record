@@ -3,11 +3,12 @@ package com.CSCB869.MedicalRecord.modules.AppUser.service;
 import com.CSCB869.MedicalRecord.modules.AppUser.model.AppUser;
 import com.CSCB869.MedicalRecord.modules.AppUser.model.AppUserDTO;
 import com.CSCB869.MedicalRecord.modules.AppUser.model.AppUserUpdateDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IAppUserService {
+public interface IAppUserService extends UserDetailsService {
     AppUser save(AppUser appUser) throws Exception;
 
     List<AppUser> getAll();
@@ -16,11 +17,18 @@ public interface IAppUserService {
 
     AppUserDTO getUserById(String id) throws Exception;
 
+    AppUserDTO getUserByUsername(String username) throws Exception;
+    AppUser findUserByUsername(String username) throws Exception;
+
     AppUser update(String id, AppUserUpdateDTO payload) throws Exception;
 
     void delete(String id) throws Exception;
 
     boolean usernameExists(String username);
 
+    boolean hashedPasswordMatches(String password, String password1);
+
     AppUserDTO convertToDTO(AppUser appUser);
+
+
 }
