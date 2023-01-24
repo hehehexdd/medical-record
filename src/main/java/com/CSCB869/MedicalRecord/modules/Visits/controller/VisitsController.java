@@ -1,10 +1,9 @@
-package com.CSCB869.MedicalRecord.modules.Doctor.controller;
+package com.CSCB869.MedicalRecord.modules.Visits.controller;
 
 import com.CSCB869.MedicalRecord.config.ResponseError;
-import com.CSCB869.MedicalRecord.modules.Doctor.model.DoctorRegisterDTO;
-import com.CSCB869.MedicalRecord.modules.Doctor.model.DoctorUpdateDTO;
-import com.CSCB869.MedicalRecord.modules.Doctor.service.IDoctorService;
-import com.CSCB869.MedicalRecord.modules.Patient.model.Patient;
+import com.CSCB869.MedicalRecord.modules.Visits.models.VisitsCreateDTO;
+import com.CSCB869.MedicalRecord.modules.Visits.models.VisitsUpdateDTO;
+import com.CSCB869.MedicalRecord.modules.Visits.service.IVisitsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/doctor")
-public class DoctorController {
+@RequestMapping("/visits")
+public class VisitsController {
 
     @Autowired
-    private IDoctorService doctorService;
+    private IVisitsService visitsService;
 
+    @PreAuthorize("hasRole('ROLE_DOCTOR)")
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody @Valid DoctorRegisterDTO doctorRegisterDTO) {
+    public ResponseEntity<Object> save(@RequestBody @Valid VisitsCreateDTO payload) {
         try {
-            return new ResponseEntity<>(this.doctorService.save(doctorRegisterDTO), HttpStatus.CREATED);
+            return new ResponseEntity<>(this.visitsService.save(payload), HttpStatus.CREATED);
         }
         catch (Exception exc) {
             ResponseError error = new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR, exc.getLocalizedMessage());
@@ -32,17 +32,15 @@ public class DoctorController {
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_DOCTOR')")
     @GetMapping
     public ResponseEntity<Object> getAll() {
-        return new ResponseEntity<> (this.doctorService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<> (this.visitsService.getAll(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    @GetMapping(path = "/{doctorId}")
-    public ResponseEntity<Object> getById(@PathVariable String doctorId) {
+    @GetMapping(path = "/{visitId}")
+    public ResponseEntity<Object> getById(@PathVariable String visitId) {
         try {
-            return new ResponseEntity<>(this.doctorService.getById(doctorId), HttpStatus.OK);
+            return new ResponseEntity<>(this.visitsService.getById(visitId), HttpStatus.OK);
         }
         catch (Exception exc) {
             ResponseError error = new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR, exc.getLocalizedMessage());
@@ -50,11 +48,11 @@ public class DoctorController {
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    @PatchMapping(path = "/{doctorId}")
-    public ResponseEntity<Object> update(@PathVariable String doctorId, @RequestBody @Valid DoctorUpdateDTO payload) {
+    @PostAuthorize("hasRole('ROLE_DOCTOR')")
+    @PatchMapping(path = "/{visitId}")
+    public ResponseEntity<Object> update(@PathVariable String visitId, @RequestBody @Valid VisitsUpdateDTO payload) {
         try {
-            return new ResponseEntity<>(this.doctorService.update(doctorId, payload), HttpStatus.OK);
+            return new ResponseEntity<>(this.visitsService.update(visitId, payload), HttpStatus.OK);
         }
         catch (Exception exc) {
             ResponseError error = new ResponseError(HttpStatus.NOT_FOUND, exc.getMessage());
@@ -62,11 +60,10 @@ public class DoctorController {
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_DOCTOR')")
-    @DeleteMapping(path = "/{doctorId}")
-    public ResponseEntity<Object> delete(@PathVariable String doctorId) {
+    @DeleteMapping(path = "/{visitId}")
+    public ResponseEntity<Object> delete(@PathVariable String visitId) {
         try {
-            this.doctorService.delete(doctorId);
+            this.visitsService.delete(visitId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (Exception exc) {

@@ -77,7 +77,6 @@ public String getUsernameFromToken(String token) {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        System.out.println(this.secretProperties.getSecret());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

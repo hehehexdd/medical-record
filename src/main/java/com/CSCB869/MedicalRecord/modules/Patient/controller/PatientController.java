@@ -20,7 +20,7 @@ public class PatientController {
     private IPatientService patientService;
 
     @PostMapping
-    public ResponseEntity save(@RequestBody @Valid PatientRegisterDTO patientRegisterDTO) {
+    public ResponseEntity<Object> save(@RequestBody @Valid PatientRegisterDTO patientRegisterDTO) {
         try {
             return new ResponseEntity<>(this.patientService.save(patientRegisterDTO), HttpStatus.CREATED);
         }
@@ -31,12 +31,12 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity getAll() {
+    public ResponseEntity<Object> getAll() {
         return new ResponseEntity<> (this.patientService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{patientId}")
-    public ResponseEntity getById(@PathVariable String patientId) {
+    public ResponseEntity<Object> getById(@PathVariable String patientId) {
         try {
             return new ResponseEntity<>(this.patientService.getById(patientId), HttpStatus.OK);
         }
@@ -47,7 +47,7 @@ public class PatientController {
     }
 
     @PatchMapping(path = "/{patientId}")
-    public ResponseEntity update(@PathVariable String patientId, @RequestBody @Valid PatientUpdateDTO payload) {
+    public ResponseEntity<Object> update(@PathVariable String patientId, @RequestBody @Valid PatientUpdateDTO payload) {
         try {
             return new ResponseEntity<>(this.patientService.update(patientId, payload), HttpStatus.OK);
         }
@@ -58,7 +58,7 @@ public class PatientController {
     }
 
     @DeleteMapping(path = "/{patientId}")
-    public ResponseEntity delete(@PathVariable String patientId) {
+    public ResponseEntity<Object> delete(@PathVariable String patientId) {
         try {
             this.patientService.delete(patientId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

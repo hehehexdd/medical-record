@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class MedicalRecordApplication {
 
 	public static void main(String[] args) {
-		//System.out.println(JWTUtility.generateJWT("testUser", "TEST"));
 		SpringApplication.run(MedicalRecordApplication.class, args);
 	}
 

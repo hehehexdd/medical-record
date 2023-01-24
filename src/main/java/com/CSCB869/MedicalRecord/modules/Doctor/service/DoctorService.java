@@ -61,6 +61,12 @@ public class DoctorService implements IDoctorService{
         return doctor.get();
     }
 
+    public Doctor getByUserId(String userId) throws Exception {
+        Optional<Doctor> doctor = this.doctorRepository.findByUserId(userId);
+        if (doctor.isEmpty()) throw new Exception("Doctor not found!");
+        return doctor.get();
+    }
+
     @Override
     public Doctor update(String doctorId, DoctorUpdateDTO payload) throws Exception {
         Doctor doctor = this.doctorRepository.findById(doctorId).orElse(null);

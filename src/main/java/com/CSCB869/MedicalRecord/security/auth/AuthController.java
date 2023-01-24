@@ -33,45 +33,9 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping()
-    public ResponseEntity authenticate(@RequestBody JWTRequest jwtRequest) throws Exception {
+    public ResponseEntity<Object> authenticate(@RequestBody JWTRequest jwtRequest) throws Exception {
         try {
             return new ResponseEntity<>(this.authService.authenticate(jwtRequest, jwtUtility, authenticationManager), HttpStatus.OK);
-//                AppUser user;
-//                try {
-//                    user = appUserService.findUserByUsername(jwtRequest.getUsername());
-//                    System.out.println(user);
-//                } catch (UsernameNotFoundException e) {
-//                    throw new Exception("Invalid Credentials!", e);
-//                }
-//
-//                try {
-//                    if (this.appUserService.hashedPasswordMatches(jwtRequest.getPassword(), user.getPassword())) {
-//                        authenticationManager.authenticate(
-//                                new UsernamePasswordAuthenticationToken(
-//                                        jwtRequest.getUsername(),
-//                                        jwtRequest.getPassword()
-//                                )
-//                        );
-////            if (Objects.equals(jwtRequest.getPassword(), user.getPassword())) {
-////                System.out.println(user);
-////                authenticationManager.authenticate(
-////                        new UsernamePasswordAuthenticationToken(
-////                                jwtRequest.getUsername(),
-////                                jwtRequest.getPassword()
-////                        )
-////                );
-//                    } else {
-//                        throw new Exception("Invalid Credentials!");
-//                    }
-//                } catch (BadCredentialsException e) {
-//                    throw new Exception("Invalid Credentials!", e);
-//                }
-//
-//                final UserDetails userDetails = this.appUserService.loadUserByUsername(jwtRequest.getUsername());
-//                final String token = this.jwtUtility.generateToken(userDetails);
-//
-//                return new ResponseEntity<>(new JWTResponse(user.getId(), user.getRole(), token), HttpStatus.OK);
-
         }
         catch (Exception exc) {
             ResponseError error = new ResponseError(HttpStatus.UNAUTHORIZED, exc.getMessage());

@@ -59,6 +59,12 @@ public class PatientService implements IPatientService{
         return patient.get();
     }
 
+    public Patient getByUserId(String userId) throws Exception {
+        Optional<Patient> patient = this.patientRepository.findByUserId(userId);
+        if (patient.isEmpty()) throw new Exception("Patient not found!");
+        return patient.get();
+    }
+
     @Override
     public Patient update(String id, PatientUpdateDTO payload) throws Exception {
         Patient patient = this.patientRepository.findById(id).orElse(null);

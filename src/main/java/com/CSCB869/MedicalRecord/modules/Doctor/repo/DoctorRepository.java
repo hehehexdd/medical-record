@@ -14,4 +14,7 @@ public interface DoctorRepository extends MongoRepository<Doctor, String> {
 
     @Query("{ 'NPI' : ?0 }")
     Optional<Doctor> findByNPI(String npi);
+
+    @Query("{ 'engagedParty.userId': ?0 } }")
+    Optional<Doctor> findByUserId(String userId);
 }

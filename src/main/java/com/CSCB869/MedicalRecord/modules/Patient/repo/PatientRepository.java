@@ -13,4 +13,7 @@ public interface PatientRepository extends MongoRepository<Patient, String> {
     Optional<Patient> findById(String patientId);
     @Query("{ 'UCN' : ?0 }")
     Optional<Patient> findByUCN(String ucn);
+
+    @Query("{ 'engagedParty.userId' : ?0 }")
+    Optional<Patient> findByUserId(String userId);
 }
