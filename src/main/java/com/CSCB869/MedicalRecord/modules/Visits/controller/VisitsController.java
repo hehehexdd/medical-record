@@ -11,7 +11,10 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/visits")
@@ -25,25 +28,23 @@ public class VisitsController {
     public ResponseEntity<Object> save(@RequestBody @Valid VisitsCreateDTO payload) {
         try {
             return new ResponseEntity<>(this.visitsService.save(payload), HttpStatus.CREATED);
-        }
-        catch (Exception exc) {
+        } catch (Exception exc) {
             ResponseError error = new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR, exc.getLocalizedMessage());
             return new ResponseEntity<>(error, error.getStatus());
         }
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAll() {
-        return new ResponseEntity<> (this.visitsService.getAll(), HttpStatus.OK);
+    public ResponseEntity<Object> getAll(HttpServletRequest request) {
+        return new ResponseEntity<>(this.visitsService.getAll(this.visitsService.getFilters(request)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{visitId}")
     public ResponseEntity<Object> getById(@PathVariable String visitId) {
         try {
             return new ResponseEntity<>(this.visitsService.getById(visitId), HttpStatus.OK);
-        }
-        catch (Exception exc) {
-            ResponseError error = new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR, exc.getLocalizedMessage());
+        } catch (Exception exc) {
+            ResponseError error = new ResponseError(HttpStatus.NOT_FOUND, exc.getLocalizedMessage());
             return new ResponseEntity<>(error, error.getStatus());
         }
     }
@@ -53,8 +54,7 @@ public class VisitsController {
     public ResponseEntity<Object> update(@PathVariable String visitId, @RequestBody @Valid VisitsUpdateDTO payload) {
         try {
             return new ResponseEntity<>(this.visitsService.update(visitId, payload), HttpStatus.OK);
-        }
-        catch (Exception exc) {
+        } catch (Exception exc) {
             ResponseError error = new ResponseError(HttpStatus.NOT_FOUND, exc.getMessage());
             return new ResponseEntity<>(error, error.getStatus());
         }
@@ -65,8 +65,7 @@ public class VisitsController {
         try {
             this.visitsService.delete(visitId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        catch (Exception exc) {
+        } catch (Exception exc) {
             ResponseError error = new ResponseError(HttpStatus.NOT_FOUND, exc.getLocalizedMessage());
             return new ResponseEntity<>(error, error.getStatus());
         }
