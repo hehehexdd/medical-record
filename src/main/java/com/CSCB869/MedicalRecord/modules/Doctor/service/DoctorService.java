@@ -5,11 +5,10 @@ import com.CSCB869.MedicalRecord.modules.AppUser.service.IAppUserService;
 import com.CSCB869.MedicalRecord.modules.Doctor.model.Doctor;
 import com.CSCB869.MedicalRecord.modules.Doctor.model.DoctorRegisterDTO;
 import com.CSCB869.MedicalRecord.modules.Doctor.model.DoctorUpdateDTO;
+import com.CSCB869.MedicalRecord.modules.Doctor.model.Speciality;
 import com.CSCB869.MedicalRecord.modules.Doctor.repo.DoctorRepository;
 import com.CSCB869.MedicalRecord.modules.Patient.model.EngagedParty;
-import com.CSCB869.MedicalRecord.modules.Patient.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,6 +74,17 @@ public class DoctorService implements IDoctorService{
 
         if(payload.getName() != null) {
             doctor.setName(payload.getName());
+        }
+
+        if(payload.getSpecialities() != null) {
+            for (Speciality speciality : payload.getSpecialities()) {
+                try {
+                    Speciality.valueOf(speciality.toString());
+                } catch (Exception e) {
+                    throw new Exception("One of the specialities is incorrect");
+                }
+            }
+            doctor.setSpecialities(payload.getSpecialities());
         }
 
         return this.doctorRepository.save(doctor);

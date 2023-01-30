@@ -1,6 +1,7 @@
 package com.CSCB869.MedicalRecord.modules.Doctor.model;
 
 import com.CSCB869.MedicalRecord.modules.Patient.model.EngagedParty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mongodb.lang.NonNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Document(collection = "Doctor")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Doctor {
 
     @Id
@@ -37,7 +39,7 @@ public class Doctor {
         this.name = name;
     }
 
-    public Doctor(String NPI, EngagedParty engagedParty, @NonNull String name, Set<Speciality> specialities) {
+    public Doctor(String NPI, EngagedParty engagedParty, @NonNull String name, @NonNull Set<Speciality> specialities) {
         this.NPI = NPI;
         this.engagedParty = engagedParty;
         this.name = name;

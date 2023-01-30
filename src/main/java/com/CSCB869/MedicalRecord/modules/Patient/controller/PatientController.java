@@ -8,10 +8,12 @@ import com.CSCB869.MedicalRecord.modules.Patient.service.IPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/patient")
 public class PatientController {
@@ -19,6 +21,7 @@ public class PatientController {
     @Autowired
     private IPatientService patientService;
 
+    @PreAuthorize("permitAll()")
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid PatientRegisterDTO patientRegisterDTO) {
         try {

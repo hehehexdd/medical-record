@@ -4,9 +4,11 @@ import com.CSCB869.MedicalRecord.modules.Doctor.model.Doctor;
 import com.CSCB869.MedicalRecord.modules.Patient.model.Patient;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface DoctorRepository extends MongoRepository<Doctor, String> {
 
     @Query("{ 'id' : ?0 }")

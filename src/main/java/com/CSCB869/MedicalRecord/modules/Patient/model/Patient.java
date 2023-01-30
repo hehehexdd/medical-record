@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mongodb.lang.NonNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,6 +24,7 @@ public class Patient {
     @Indexed(unique = true)
     private EngagedParty engagedParty;
 
+    @NonNull
     private EngagedParty gp;
     /*
     The unique civil number of the patient

@@ -33,6 +33,13 @@ public class PatientService implements IPatientService{
                 patientRegisterDTO.getPassword(),
                 "PATIENT"
         );
+        String gpHref = patientRegisterDTO.getGp().getHref() != null ?
+                patientRegisterDTO.getGp().getHref()
+                : "http://localhost:8080/user" + "/" + patientRegisterDTO.getGp().getUserId();
+        EngagedParty gp = new EngagedParty(
+                patientRegisterDTO.getGp().getUserId(),
+                gpHref
+        );
         user = this.appUserService.save(user);
 
         EngagedParty ep = new EngagedParty(
@@ -42,6 +49,7 @@ public class PatientService implements IPatientService{
         Patient patient = new Patient(
                 patientRegisterDTO.getUCN(),
                 ep,
+                gp,
                 patientRegisterDTO.getName()
         );
         return this.patientRepository.save(patient);

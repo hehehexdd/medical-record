@@ -5,13 +5,20 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-@Data
-@NoArgsConstructor
-public class Speciality {
-    @NotNull
-    private String id;
-    @NotNull
-    private String name;
-    @NotNull
-    private String type;
+public enum Speciality {
+    General,
+    Anesthesiology,
+    Dermatology,
+    DiagnosticRadiology,
+    InternalMedicine,
+    Neurology,
+    gynecology,
+    Ophthalmology,
+    Pathology,
+    Pediatrics,
+    Rehabilitation,
+    Psychiatry,
+    Oncology,
+    Surgery,
+    Urology
 }
