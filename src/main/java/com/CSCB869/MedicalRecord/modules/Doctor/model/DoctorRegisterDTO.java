@@ -20,10 +20,16 @@ public class DoctorRegisterDTO {
     @NotBlank(message = "Name is required.")
     private String name;
 
-    public DoctorRegisterDTO(@NotBlank String username, @NotBlank String password, @NotBlank String NPI, @NotBlank String name) {
+    @NotNull(message = "The Specialty is required.")
+    private Speciality specialty;
+
+    public DoctorRegisterDTO(@NotBlank String username, @NotBlank String password,
+                             @NotBlank String NPI, @NotBlank String name,
+                             @NotNull Speciality speciality) {
         this.username = username;
         this.password = password;
         this.NPI = NPI;
         this.name = name;
+        this.specialty = speciality;
     }
 }

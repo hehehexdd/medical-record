@@ -19,8 +19,10 @@ public class VisitsCreateDTO {
 //    @NotBlank(message = "The doctor is required.")
     private EngagedParty doctor;
 
-    @NotBlank(message = "The diagnosis is required.")
+//    @NotBlank(message = "The diagnosis is required.")
     private String diagnosis;
+
+    private String date;
 
     private List<Treatment> medicaments;
 
@@ -44,6 +46,28 @@ public class VisitsCreateDTO {
         this.patient = patient;
         this.doctor = doctor;
         this.diagnosis = diagnosis;
+        this.medicaments = new ArrayList<>();
+        this.sickLeave = null;
+    }
+
+    public VisitsCreateDTO(
+            String date,@NotBlank EngagedParty patient,
+                           @NotBlank EngagedParty doctor
+                           ) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.diagnosis = "";
+        this.date = date;
+        this.medicaments = new ArrayList<>();
+        this.sickLeave = null;
+    }
+
+    public VisitsCreateDTO(@NotBlank EngagedParty patient,
+                           @NotBlank EngagedParty doctor) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.diagnosis = "";
+        this.date = null;
         this.medicaments = new ArrayList<>();
         this.sickLeave = null;
     }

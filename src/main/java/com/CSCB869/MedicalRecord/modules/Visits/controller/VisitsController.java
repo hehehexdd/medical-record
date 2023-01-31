@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/visits")
 public class VisitsController {
@@ -34,6 +35,7 @@ public class VisitsController {
         }
     }
 
+    @PostAuthorize("hasRole('ROLE_DOCTOR') || hasRole('ROLE_PATIENT')")
     @GetMapping
     public ResponseEntity<Object> getAll(HttpServletRequest request) {
         return new ResponseEntity<>(this.visitsService.getAll(this.visitsService.getFilters(request)), HttpStatus.OK);

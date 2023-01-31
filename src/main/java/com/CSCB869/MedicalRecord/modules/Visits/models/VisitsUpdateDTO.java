@@ -12,5 +12,6 @@ import java.util.List;
 public class VisitsUpdateDTO {
 
     private List<Treatment> medicaments;
+    private String diagnosis;
     private SickLeave sickLeave;
 }

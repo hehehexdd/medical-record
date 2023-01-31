@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -34,8 +36,8 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAll() {
-        return new ResponseEntity<> (this.patientService.getAll(), HttpStatus.OK);
+    public ResponseEntity<Object> getAll(HttpServletRequest request) {
+        return new ResponseEntity<> (this.patientService.getAll(this.patientService.getFilters(request)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{patientId}")

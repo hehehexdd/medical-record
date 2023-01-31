@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -56,8 +57,14 @@ public class PatientService implements IPatientService{
     }
 
     @Override
-    public List<Patient> getAll() {
-        return this.patientRepository.findAll();
+    public List<Patient> getAll(Map<String, String> query) {
+        List<String> combinedEntries = query.entrySet()
+                .stream()
+                .map(x ->
+                        "{" + x.getKey() + ":" + "{$eq:" + x.getValue() + "}}")
+
+                .collect(Collectors.toList());
+        return this.patientRepository.findByQuery(query);
     }
 
     @Override
@@ -85,6 +92,9 @@ public class PatientService implements IPatientService{
         if(payload.getGp() != null) {
             patient.setGp(payload.getGp());
         }
+        if(payload.getHealthTaxesPaidUntil() != null) {
+            patient.setHealthTaxesPaidUntil(payload.getHealthTaxesPaidUntil());
+        }
 
         return this.patientRepository.save(patient);
     }
@@ -101,6 +111,19 @@ public class PatientService implements IPatientService{
 
     private boolean ucnExists(String ucn) {
         return this.patientRepository.findByUCN(ucn).isPresent();
+    }
+
+    @Override
+    public Map<String, String> getFilters(HttpServletRequest request) {
+        Map<String, String> query = new HashMap<>();
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        parameterMap.forEach((key, valArray) -> {
+            for (String value : valArray) {
+                query.put(key, value);
+            }
+        });
+
+        return query;
     }
 
 }

@@ -75,4 +75,16 @@ public class DoctorController {
             return new ResponseEntity<>(error, error.getStatus());
         }
     }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping(path = "/specialities")
+    public ResponseEntity<Object> listSpecialities() {
+        try {
+            return new ResponseEntity<>(this.doctorService.listSpecialities(), HttpStatus.OK);
+        }
+        catch (Exception exc) {
+            ResponseError error = new ResponseError(HttpStatus.NOT_FOUND, exc.getLocalizedMessage());
+            return new ResponseEntity<>(error, error.getStatus());
+        }
+    }
 }

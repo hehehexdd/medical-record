@@ -68,4 +68,17 @@ public class Visits {
         this.sickLeave = null;
     }
 
+    public Visits(
+            @NonNull EngagedParty patient,
+            @NonNull EngagedParty doctor,
+            @NotNull String date) {
+        this.id = null;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.date = date;
+        this.diagnosis = null;
+        this.medicaments = new ArrayList<>();
+        this.sickLeave = null;
+    }
+
 }

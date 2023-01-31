@@ -17,11 +17,18 @@ public class EngagedParty {
 //    @NotNull(message = "The userId is required.")
     @NotBlank(message = "The userId is required.")
     private String userId;
-
     private String href;
+
+    private String name;
 
     public EngagedParty(@NotBlank String userId) {
         this.userId = userId;
         this.href = null;
+    }
+
+    public EngagedParty(@NotBlank String userId, String name) {
+        this.userId = userId;
+        this.href = null;
+        this.name = name;
     }
 }

@@ -31,13 +31,22 @@ public class VisitsService implements IVisitsService {
 
     @Override
     public Visits save(VisitsCreateDTO visitDTO) throws Exception {
-
-        Visits visit = new Visits(
-                visitDTO.getPatient(),
-                visitDTO.getDoctor(),
-                LocalDate.now().toString(),
-                visitDTO.getDiagnosis()
-        );
+        Visits visit;
+        if (visitDTO.getDiagnosis() == null) {
+            visit = new Visits(
+                    visitDTO.getPatient(),
+                    visitDTO.getDoctor(),
+                    visitDTO.getDate()
+            );
+        }
+        else {
+            visit = new Visits(
+                    visitDTO.getPatient(),
+                    visitDTO.getDoctor(),
+                    LocalDate.now().toString(),
+                    visitDTO.getDiagnosis()
+            );
+        }
 
         System.out.println(visit);
 
@@ -78,6 +87,7 @@ public class VisitsService implements IVisitsService {
 
         if (payload.getSickLeave() != null) visit.setSickLeave(payload.getSickLeave());
         if (payload.getMedicaments() != null) visit.setMedicaments(payload.getMedicaments());
+        if (!payload.getDiagnosis().isEmpty()) visit.setDiagnosis(payload.getDiagnosis());
 
         return this.visitsRepository.save(visit);
     }

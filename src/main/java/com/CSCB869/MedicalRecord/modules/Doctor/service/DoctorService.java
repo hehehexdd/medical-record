@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -40,10 +39,13 @@ public class DoctorService implements IDoctorService{
                 user.getId(),
                 "http://localhost:8080/user" + "/" + user.getId()
         );
+        Set<Speciality> specialities = new LinkedHashSet<>();
+        specialities.add(doctorDTO.getSpecialty());
         Doctor doctor = new Doctor(
                 doctorDTO.getNPI(),
                 ep,
-                doctorDTO.getName()
+                doctorDTO.getName(),
+                specialities
         );
         return this.doctorRepository.save(doctor);
     }
@@ -102,5 +104,10 @@ public class DoctorService implements IDoctorService{
 
     private boolean npiExists(String ucn) {
         return this.doctorRepository.findByNPI(ucn).isPresent();
+    }
+
+    @Override
+    public List<Speciality> listSpecialities() {
+        return new ArrayList<>(EnumSet.allOf(Speciality.class));
     }
 }
